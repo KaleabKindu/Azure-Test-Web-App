@@ -19,6 +19,10 @@ jobs:
         with:
           submodules: true
           lfs: false
+      - name: Generate Env File
+        run: |
+          echo 'NEXT_PUBLIC_API=$(NEXT_PUBLIC_API)' >> .env
+          echo 'API=$(API)' >> .env
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
