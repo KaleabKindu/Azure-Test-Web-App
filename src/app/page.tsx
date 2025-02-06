@@ -1,30 +1,9 @@
-"use client"
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Image from "next/image";
-import { useEffect } from "react";
+
 
 export default function Home() {
-  useEffect(() => {
-    const getSecrets = async () => {
-      try {
-        const response = await fetch("/api/secret", { 
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ key: "CERTIFICATE" })
-          
-        })
-        if(response.status === 200){
-          const data = await response.json()
-          console.log("response", data)
-        }
-        
-      } catch (error:any) {
-        console.log("error", error.message)
-      }
-    }
-    getSecrets();
-  }, [])
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Header />
