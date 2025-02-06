@@ -24,22 +24,27 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
-
-      # Fetch environment variables and generate .env file
-      - name: Fetch environment variables
-        id: fetch_env_vars
-        run: |
-          # Fetch environment variables from Azure Static Web App
-          ENV_VARS=$(az staticwebapp appsettings list \
+      - name: "verification"
+        run: az staticwebapp appsettings list \
             --name rumedy-web-app \
             --resource-group rumedy-web-app_group \
-            --query  "[].{name:name, value:value}" -o json)
+            --query  "[].{name:name, value:value}" -o json
 
-          # Write each environment variable to .env
-          echo "$ENV_VARS" | jq -r '.[] | "\(.name)=\(.value)"' >> .env
+      # # Fetch environment variables and generate .env file
+      # - name: Fetch environment variables
+      #   id: fetch_env_vars
+      #   run: |
+      #     # Fetch environment variables from Azure Static Web App
+      #     ENV_VARS=$(az staticwebapp appsettings list \
+      #       --name rumedy-web-app \
+      #       --resource-group rumedy-web-app_group \
+      #       --query  "[].{name:name, value:value}" -o json)
 
-          # Verify the .env file
-          cat .env
+      #     # Write each environment variable to .env
+      #     echo "$ENV_VARS" | jq -r '.[] | "\(.name)=\(.value)"' >> .env
+
+      #     # Verify the .env file
+      #     cat .env
 
       - name: Build And Deploy
         id: builddeploy
