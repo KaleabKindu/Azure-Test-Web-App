@@ -6,17 +6,24 @@ import { useEffect } from "react";
 
 export default function Home() {
   useEffect(() => {
-    fetch("/api/secret", { 
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key: "CERTIFICATE" })
-      
-    }).then(async (res) => {
-      const data = await res.json()
-      console.log("response", data)
-    }).catch((e) => {
-      console.log("error", e.message)
-    })
+    const getSecrets = async () => {
+      try {
+        const response = await fetch("/api/secret", { 
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ key: "CERTIFICATE" })
+          
+        })
+        if(response.status === 200){
+          const data = await response.json()
+          console.log("response", data)
+        }
+        
+      } catch (error:any) {
+        console.log("error", error.message)
+      }
+    }
+    getSecrets();
   }, [])
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
