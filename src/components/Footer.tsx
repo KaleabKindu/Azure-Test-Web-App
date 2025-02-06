@@ -72,7 +72,7 @@ const Footer = (props: Props) => {
         Instantly deploy your Next.js site to a shareable URL with Vercel.
       </p>
     </a>
-    <div className='py-10 text-2xl font-bold'>API: {process.env.API}</div>
+    <div className='py-10 text-2xl font-bold '>API: {process.env.API}</div>
   </div>
   )
 }
