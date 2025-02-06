@@ -34,8 +34,8 @@ jobs:
             --resource-group rumedy-web-app_group \
             --query  "properties" -o json)
 
-          # Write each environment variable to .env
-          echo "$ENV_VARS" | jq -r '.[] | "\(.name)=\(.value)"' >> .env
+          # Write environment variables to .env file
+          echo "$ENV_VARS" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
 
           # Verify the .env file
           cat .env
