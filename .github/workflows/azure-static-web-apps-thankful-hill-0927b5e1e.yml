@@ -27,6 +27,7 @@ jobs:
       - name: "verification"
         run: az staticwebapp appsettings list \
             --name rumedy-web-app \
+            --environment-name Production \
             --resource-group rumedy-web-app_group \
             --query  "[].{name:name, value:value}" -o json
 
