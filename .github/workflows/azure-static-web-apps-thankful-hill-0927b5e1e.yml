@@ -19,10 +19,33 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: Generate Env File
+      # Install Azure CLI
+      - name: Install Azure CLI
         run: |
-          echo 'NEXT_PUBLIC_API=$(NEXT_PUBLIC_API)' >> .env
-          echo 'API=$(API)' >> .env
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az --version
+
+      # Log in to Azure using service principal
+      - name: Log in to Azure
+        run: |
+          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+      # Fetch environment variables and generate .env file
+      - name: Fetch environment variables
+        id: fetch_env_vars
+        run: |
+          # Fetch environment variables from Azure Static Web App
+          ENV_VARS=$(az staticwebapp appsettings list \
+            --name rumedy-web-app \
+            --resource-group rumedy-web-app_group \
+            --query  "[].{name:name, value:value}" -o json)
+
+          # Write each environment variable to .env
+          echo "$ENV_VARS" | jq -r '.[] | "\(.name)=\(.value)"' >> .env
+
+          # Verify the .env file
+          cat .env
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
