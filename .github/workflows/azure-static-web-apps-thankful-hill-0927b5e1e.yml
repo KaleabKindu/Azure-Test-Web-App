@@ -25,11 +25,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           enable-AzPSSession: true
       - name: "verification"
-        run: az staticwebapp appsettings list \
-            --name rumedy-web-app \
-            --environment-name Production \
-            --resource-group rumedy-web-app_group \
-            --query  "[].{name:name, value:value}" -o json
+        run: az staticwebapp appsettings list --name rumedy-web-app --environment-name Production --resource-group rumedy-web-app_group --query  "[].{name:name, value:value}" -o json
 
       # # Fetch environment variables and generate .env file
       # - name: Fetch environment variables
