@@ -31,6 +31,7 @@ jobs:
           # Fetch environment variables from Azure Static Web App
           ENV_VARS=$(az staticwebapp appsettings list \
             --name rumedy-web-app \
+            --environment-name Production \
             --resource-group rumedy-web-app_group \
             --query  "properties" -o json)
 
